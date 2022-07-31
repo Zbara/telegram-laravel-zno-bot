@@ -36,6 +36,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsers[] $videos
+ * @property-read int|null $videos_count
  */
 class User extends Authenticatable
 {
@@ -70,4 +72,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function videos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TelegramUsers::class);
+    }
 }

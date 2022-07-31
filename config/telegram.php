@@ -46,9 +46,14 @@ return [
                 App\Command\TeacherItemsCommand::class,
                 App\Command\TeacherVideosCommand::class,
                 App\Command\TeacherVideosUsersCommand::class,
+                App\Command\TeacherMyCommand::class,
+                App\Command\TeacherVideosUploadsCommand::class,
+                App\Command\RemoveVideoCommand::class,
 
                 /** role student */
                 App\Command\StudentCommand::class,
+                App\Command\StudentVideosCommand::class,
+                App\Command\StudentVideosAnswerCommand::class,
             ],
         ],
     ],

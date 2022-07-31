@@ -24,8 +24,7 @@ class TeacherVideosCommand extends Command
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->replyWithMessage([
-            'text' => 'Загрузка видео',
-            'chat_id' => $this->getUpdate()->getChat()->id,
+            'text' => 'Загрузка видео, от 5 до 30 секунд.',
             'reply_markup' => Keyboard::make([
                 'keyboard' => [
                     [

@@ -32,6 +32,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $subject
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereSubject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereUpdatedAt($value)
+ * @property int|null $role
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramVideos[] $videos
+ * @property-read int|null $videos_count
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereRole($value)
+ * @property int|null $upload_video
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereUploadVideo($value)
+ * @property int|null $video_id
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereVideoId($value)
  */
 class TelegramUsers extends Model
 {
@@ -45,4 +53,9 @@ class TelegramUsers extends Model
         'last_date',
         'command',
     ];
+
+    public function videos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TelegramVideos::class, 'user_id');
+    }
 }

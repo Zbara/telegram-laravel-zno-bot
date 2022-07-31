@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Command\Messages\Subject;
+use App\Command\Messages\TextList;
 use App\Models\TelegramUsers;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Actions;
@@ -12,33 +14,16 @@ class TeacherItemsCommand extends Command
 {
     protected $name = 'teacher-items';
 
-    private array $items = [
-        'Обществознание',
-        'Алгебра',
-        'Геометрия',
-    ];
-
     public function __construct()
     {
-        parent::setAliases($this->items);
-    }
-
-    private function subject()
-    {
-        $user = TelegramUsers::where('platform_id', $this->getUpdate()->getChat()->id)->first();
-
-        if (array_search($this->getUpdate()->getMessage()->text, $this->items) !== null) {
-            $user->subject = array_search($this->getUpdate()->getMessage()->text, $this->items);
-            $user->save();
-        }
-        return (isset($this->items[$user->subject])) ? $this->items[$user->subject] : 'Не известно.';
+        parent::setAliases(TextList::$items);
     }
 
     public function handle()
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->replyWithMessage([
-            'text' => sprintf('Вы выбрали предмет - %s',  $this->subject()),
+            'text' => sprintf('Вы выбрали предмет - %s',  Subject::items($this->getUpdate()->getMessage()->text)),
             'chat_id' => $this->getUpdate()->getChat()->id,
             'reply_markup' => Keyboard::make([
                 'keyboard' => [

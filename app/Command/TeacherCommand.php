@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Telegram\User;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Keyboard\Keyboard;
 
@@ -9,12 +10,6 @@ class TeacherCommand extends Command
 {
     protected $name = 'teacher';
     protected $description = 'Вы выбрали роль учителя';
-
-    private array $items = [
-        'Обществознание',
-        'Алгебра',
-        'Геометрия',
-    ];
 
     public function __construct()
     {
@@ -30,11 +25,19 @@ class TeacherCommand extends Command
             'chat_id' => $this->getUpdate()->getChat()->id,
             'reply_markup' => Keyboard::make([
                 'keyboard' => [
-                    $this->items
+                    [
+                        'Обществознание',
+                        'Алгебра',
+                        'Геометрия',
+                    ],
+                    [
+                        'Мои уроки'
+                    ]
                 ],
                 'resize_keyboard' => true,
                 'one_time_keyboard' => true,
             ])
         ]);
+        User::setRole(2);
     }
 }
