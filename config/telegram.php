@@ -32,20 +32,25 @@ return [
     |             ]
     */
     'bots'                         => [
-        'mybot' => [
-            'username'            => 'TelegramBot',
+        'bot' => [
+            'username'            => 'zbara_bot',
             'token'               => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [
-                //Acme\Project\Commands\MyTelegramBot\BotCommand::class
+                /** start or restart */
+                App\Command\StartCommand::class,
+
+                /** roles teacher */
+                App\Command\TeacherCommand::class,
+                App\Command\TeacherItemsCommand::class,
+                App\Command\TeacherVideosCommand::class,
+                App\Command\TeacherVideosUsersCommand::class,
+
+                /** role student */
+                App\Command\StudentCommand::class,
             ],
         ],
-
-        //        'mySecondBot' => [
-        //            'username'  => 'AnotherTelegram_Bot',
-        //            'token' => '123456:abc',
-        //        ],
     ],
 
     /*
@@ -57,7 +62,7 @@ return [
     | your default bot for regular use.
     |
     */
-    'default'                      => 'mybot',
+    'default'                      => 'bot',
 
     /*
     |--------------------------------------------------------------------------
