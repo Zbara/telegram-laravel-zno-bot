@@ -31,6 +31,12 @@ class StudentVideosAnswerCommand extends Command
                 break;
             /** ответ не понял */
             case 'error':
+                TelegramUsersDoneVideos::create([
+                    'user_id' => User::getUser()->id,
+                    'video_id' => User::getUser()->video_id,
+                    'status' => 0,
+                ]);
+
                 $this->sendNewVideo();
                 break;
 

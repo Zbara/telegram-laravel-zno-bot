@@ -7,13 +7,20 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class RemoveMessages
 {
+    private static Api $api;
+
+    public function __construct(
+        Api $api
+    ){
+        static::$api = $api;
+    }
+
     public static function remove(): void
     {
-        $api = new Api();
 
-        if ($callback = $api->getWebhookUpdate()->get('callback_query')) {
+        if ($callback = static::$api->getWebhookUpdate()->get('callback_query')) {
             try {
-                $api->deleteMessage(['message_id' => $callback->getMessage()->get('message_id'), 'chat_id' => $callback->getMessage()->chat->get('id')]);
+                static::$api->deleteMessage(['message_id' => $callback->getMessage()->get('message_id'), 'chat_id' => $callback->getMessage()->chat->get('id')]);
             } catch (TelegramSDKException $e) {
                 \Log::error($e->getMessage());
             }

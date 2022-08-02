@@ -38,8 +38,40 @@ namespace App\Models{
  * @property int|null $subject
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereSubject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereUpdatedAt($value)
+ * @property int|null $role
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramVideos[] $videos
+ * @property-read int|null $videos_count
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereRole($value)
+ * @property int|null $upload_video
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereUploadVideo($value)
+ * @property int|null $video_id
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereVideoId($value)
  */
 	class TelegramUsers extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\TelegramUsersDoneVideos
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $video_id
+ * @property int|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsersDoneVideos whereVideoId($value)
+ * @mixin \Eloquent
+ */
+	class TelegramUsersDoneVideos extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -66,6 +98,10 @@ namespace App\Models{
  * @property string|null $tags
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramVideos whereSubject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramVideos whereTags($value)
+ * @property string|null $theme
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramVideos whereTheme($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsersDoneVideos[] $doneList
+ * @property-read int|null $done_list_count
  */
 	class TelegramVideos extends \Eloquent {}
 }

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Models\TelegramUsersDoneVideos;
 use App\Models\TelegramVideos;
 use App\Telegram\Callback;
 use App\Telegram\RemoveMessages;
@@ -19,9 +20,10 @@ class RemoveVideoCommand extends Command
     public function handle()
     {
         if (Callback::getParams(1)) {
-            $videos = TelegramVideos::where('id', Callback::getParams(1))->where('user_id', User::getUser()->id);
+            $videos = TelegramVideos::find(Callback::getParams(1));
 
             if ($videos) {
+                $videos->subscribers()->delete();
                 $videos->delete();
 
                 RemoveMessages::remove();

@@ -31,6 +31,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramVideos whereTags($value)
  * @property string|null $theme
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramVideos whereTheme($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsersDoneVideos[] $doneList
+ * @property-read int|null $done_list_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsersDoneVideos[] $subscribers
+ * @property-read int|null $subscribers_count
  */
 class TelegramVideos extends Model
 {
@@ -44,6 +48,10 @@ class TelegramVideos extends Model
         'subject',
     ];
 
+    public function subscribers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TelegramUsersDoneVideos::class, 'video_id');
+    }
 
     public static function getVideo(): \Illuminate\Database\Eloquent\Builder|TelegramVideos|\Illuminate\Database\Query\Builder|null
     {

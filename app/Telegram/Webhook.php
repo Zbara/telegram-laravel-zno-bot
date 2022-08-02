@@ -11,7 +11,7 @@ class Webhook
 
     public function __construct(
         Api $bot,
-
+        RemoveMessages $messages
     )
     {
         $this->bot = $bot;
