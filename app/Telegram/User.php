@@ -33,9 +33,10 @@ class User
             if (null === $user) {
                 $user = TelegramUsers::create([
                     'platform_id' => $userData->id,
-                    'login' => $userData->username ?? 'user_' . $userData->id,
-                    'first_name' => $userData->firstName ?? 'user_' . $userData->id,
-                    'last_name' => $userData->lastName ?? '',
+                    'login' => $userData->username ?? 'login_' . $userData->id,
+                   // 'first_name' => $userData->firstName ?? 'first_name_' . $userData->id,
+                    'first_name' => 'first_name_' . $userData->id,
+                    'last_name' =>  'lastName_' . $userData->id,
                     'last_date' => Carbon::now(),
                     'command' => 'start',
                     'role' => 0,

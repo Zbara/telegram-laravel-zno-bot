@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Command\Messages\TextList;
 use App\Models\TelegramUsers;
 use App\Models\TelegramVideos;
+use App\Telegram\RemoveMessages;
 use App\Telegram\User;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use Telegram\Bot\Commands\Command;
@@ -23,28 +24,30 @@ class TeacherMyCommand extends Command
 
     public function handle()
     {
+        /** удалаление старого сообщения */
+        RemoveMessages::remove();
+
         $videos = TelegramVideos::where('user_id', User::getUser()->id)->get();
 
-        if(count($videos) > 0) {
+        if (count($videos) > 0) {
             $this->replyWithMessage([
                 'text' => 'Список моих уроков',
                 'chat_id' => $this->getUpdate()->getChat()->id,
                 'reply_markup' => Keyboard::make([
-                    'keyboard' => [
+                    'inline_keyboard' => [
                         [
-                            'Назад к урокам'
+                            ['text' => 'Назад к урокам', 'callback_data' => 'teacher'],
                         ]
                     ],
                     'resize_keyboard' => true,
-                    'one_time_keyboard' => true,
                 ])
             ]);
-
             foreach ($videos as $item) {
                 if ($item->tags !== null) {
                     $this->replyWithVideo([
                         'caption' => sprintf('Видео по предмету - %s. %sТема - %s. %sТеги - %s.', TextList::$items[$item->subject], "\n\n", $item->theme, "\n\n", $item->tags),
                         'video' => $item->file_name,
+                        'chat_id' => $this->getUpdate()->getChat()->id,
                         'reply_markup' => Keyboard::make([
                             'inline_keyboard' => [
                                 [
@@ -57,19 +60,29 @@ class TeacherMyCommand extends Command
                     usleep(1000);
                 }
             }
-            return;
+            return $this->replyWithMessage([
+                'text' => 'Вернуться назад',
+                'chat_id' => $this->getUpdate()->getChat()->id,
+                'reply_markup' => Keyboard::make([
+                    'inline_keyboard' => [
+                        [
+                            ['text' => 'Назад к урокам', 'callback_data' => 'teacher'],
+                        ]
+                    ],
+                    'resize_keyboard' => true,
+                ])
+            ]);
         }
         $this->replyWithMessage([
             'text' => 'Вы еще не создали ни одного урока.',
             'chat_id' => $this->getUpdate()->getChat()->id,
             'reply_markup' => Keyboard::make([
-                'keyboard' => [
+                'inline_keyboard' => [
                     [
-                        'Назад к урокам'
+                        ['text' => 'Назад к урокам', 'callback_data' => 'teacher'],
                     ]
                 ],
                 'resize_keyboard' => true,
-                'one_time_keyboard' => true,
             ])
         ]);
     }

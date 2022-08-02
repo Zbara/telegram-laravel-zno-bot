@@ -11,5 +11,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+/**  webhook */
 Route::post('/webhook', 'App\Http\Controllers\TelegramBotController@webHook')->name('webHook');
-Route::get('/webhooka', 'App\Http\Controllers\TelegramBotController@webHook')->name('webHook');
+Route::get('/', function () {
+    return 'Laravel App index.';
+});
+

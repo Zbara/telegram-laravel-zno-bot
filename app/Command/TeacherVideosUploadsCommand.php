@@ -4,6 +4,7 @@ namespace App\Command;
 
 
 use App\Models\TelegramVideos;
+use App\Telegram\RemoveMessages;
 use App\Telegram\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -19,14 +20,12 @@ class TeacherVideosUploadsCommand extends Command
     public function handle()
     {
         if (User::getUser()->upload_video === null) {
-
             /** проверка если не видео то ошибка */
             if ($this->getUpdate()->getMessage()->video == null) {
                 return $this->replyWithMessage([
                     'text' => 'Загружать только видео.',
                 ]);
             }
-
             $video = TelegramVideos::create([
                 'file_name' => $this->getUpdate()->getMessage()->video->get('file_id'),
                 'file_size' => (int)$this->getUpdate()->getMessage()->video->get('file_size'),

@@ -5,6 +5,8 @@ namespace App\Command;
 use App\Command\Messages\Subject;
 use App\Command\Messages\TextList;
 use App\Models\TelegramUsers;
+use App\Telegram\Callback;
+use App\Telegram\RemoveMessages;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -14,29 +16,26 @@ class TeacherItemsCommand extends Command
 {
     protected $name = 'teacher-items';
 
-    public function __construct()
-    {
-        parent::setAliases(TextList::$items);
-    }
-
     public function handle()
     {
+        /** удалаление старого сообщения */
+        RemoveMessages::remove();
+
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->replyWithMessage([
-            'text' => sprintf('Вы выбрали предмет - %s',  Subject::items($this->getUpdate()->getMessage()->text)),
+            'text' => sprintf('Вы выбрали предмет - %s',  Subject::items(Callback::getParams(1))),
             'chat_id' => $this->getUpdate()->getChat()->id,
             'reply_markup' => Keyboard::make([
-                'keyboard' => [
+                'inline_keyboard' => [
                     [
-                        'Загрузить видео',
-                        'Видео других пользователей',
+                        ['text' => 'Загрузить видео', 'callback_data' => 'teacher-videos'],
+                        ['text' => 'Видео других пользователей', 'callback_data' => 'teacher-videos-users'],
                     ],
                     [
-                        'Назад к урокам'
+                        ['text' => 'Назад к урокам', 'callback_data' => 'teacher'],
                     ]
                 ],
                 'resize_keyboard' => true,
-                'one_time_keyboard' => true,
             ])
         ]);
     }

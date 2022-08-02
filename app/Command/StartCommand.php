@@ -13,7 +13,7 @@ class StartCommand extends Command
     protected $aliases = ['restart'];
     protected $description = 'Приветственный текст.';
 
-    protected $roles = [
+    protected array $roles = [
         1 => 'student',
         2 => 'teacher'
     ];
@@ -31,14 +31,13 @@ class StartCommand extends Command
                 'text' => 'Доброе время суток,выберите кто Вы?',
                 'chat_id' => $this->getUpdate()->getChat()->id,
                 'reply_markup' => Keyboard::make([
-                    'keyboard' => [
+                    'inline_keyboard' => [
                         [
-                            'Я - Учитель',
-                            'Я - Ученик',
-                        ],
+                            ['text' => 'Я - Учитель', 'callback_data' => 'teacher'],
+                            ['text' => 'Я - Ученик', 'callback_data' => 'student'],
+                        ]
                     ],
                     'resize_keyboard' => true,
-                    'one_time_keyboard' => true,
                 ])
             ]);
         }

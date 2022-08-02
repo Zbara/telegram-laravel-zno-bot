@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Telegram\RemoveMessages;
+use App\Telegram\User;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -11,28 +13,21 @@ class TeacherVideosCommand extends Command
 {
     protected $name = 'teacher-videos';
 
-    private array $items = [
-        'Загрузить видео',
-    ];
-
-    public function __construct()
-    {
-        parent::setAliases($this->items);
-    }
-
     public function handle()
     {
+        /** удалаление старого сообщения */
+        RemoveMessages::remove();
+
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->replyWithMessage([
             'text' => 'Загрузка видео, от 5 до 30 секунд.',
             'reply_markup' => Keyboard::make([
-                'keyboard' => [
+                'inline_keyboard' => [
                     [
-                        'Назад к предмету'
+                        ['text' => 'Назад к предмету', 'callback_data' => 'teacher-items,' . User::getUser()->subject],
                     ]
                 ],
                 'resize_keyboard' => true,
-                'one_time_keyboard' => true,
             ])
         ]);
     }
