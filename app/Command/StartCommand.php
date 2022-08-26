@@ -42,6 +42,8 @@ class StartCommand extends Command
             ]);
         }
         User::setStartCommand($this->roles[User::getUser()->role]);
+        User::setVideo(null);
+        User::setVideoUploads(null);
 
         return $this->triggerCommand($this->roles[User::getUser()->role]);
     }

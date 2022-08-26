@@ -33,13 +33,21 @@ return [
     */
     'bots'                         => [
         'bot' => [
-            'username'            => 'teachbyvideosbot',
+            'username'            => 'zbara_bot',
             'token'               => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [
                 /** start or restart */
                 App\Command\StartCommand::class,
+                App\Command\SettingsCommand::class,
+                App\Command\SettingsRoleCommand::class,
+                App\Command\FaveCommand::class,
+                App\Command\FaveAddCommand::class,
+                App\Command\HelpCommand::class,
+                App\Command\RemoveFaveCommand::class,
+                App\Command\PaymentsCommand::class,
+                App\Command\PaymentsSaveCommand::class,
 
                 /** roles teacher */
                 App\Command\TeacherCommand::class,

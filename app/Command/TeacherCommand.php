@@ -36,11 +36,15 @@ class TeacherCommand extends Command
                     ],
                     [
                         ['text' => 'Мои уроки', 'callback_data' => 'teacher-my'],
+                        ['text' => 'Настройки', 'callback_data' => 'settings'],
+                        ['text' => 'Помощь', 'callback_data' => 'help'],
                     ]
                 ],
                 'resize_keyboard' => true,
             ])
         ]);
         User::setRole(2);
+        User::setVideo(null);
+        User::setVideoUploads(null);
     }
 }

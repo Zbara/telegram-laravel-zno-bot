@@ -40,6 +40,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereUploadVideo($value)
  * @property int|null $video_id
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereVideoId($value)
+ * @property string|null $payments
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers wherePayments($value)
+ * @property int $status
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramUsers whereStatus($value)
  */
 class TelegramUsers extends Model
 {

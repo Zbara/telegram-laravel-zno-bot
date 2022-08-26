@@ -28,10 +28,17 @@ class StudentCommand extends Command
                         ['text' => 'Алгебра', 'callback_data' => 'student-videos,2'],
                         ['text' => 'Геометрия', 'callback_data' => 'student-videos,3'],
                     ],
+                    [
+                        ['text' => 'Настройки', 'callback_data' => 'settings'],
+                        ['text' => 'Закладки', 'callback_data' => 'fave'],
+                        ['text' => 'Помощь', 'callback_data' => 'help'],
+                    ]
                 ],
                 'resize_keyboard' => true,
             ])
         ]);
         User::setRole(1);
+        User::setVideo(null);
+        User::setVideoUploads(null);
     }
 }

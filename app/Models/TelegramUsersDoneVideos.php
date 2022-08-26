@@ -34,4 +34,7 @@ class TelegramUsersDoneVideos extends Model
         'status',
         'video_id',
     ];
+
+
+
 }

@@ -11,13 +11,18 @@ class RemoveMessages
 
     public function __construct(
         Api $api
-    ){
+    )
+    {
         static::$api = $api;
+    }
+
+    public static function getApi(): Api
+    {
+        return static::$api;
     }
 
     public static function remove(): void
     {
-
         if ($callback = static::$api->getWebhookUpdate()->get('callback_query')) {
             try {
                 static::$api->deleteMessage(['message_id' => $callback->getMessage()->get('message_id'), 'chat_id' => $callback->getMessage()->chat->get('id')]);

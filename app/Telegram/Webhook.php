@@ -28,6 +28,13 @@ class Webhook
         try {
             $user = User::telegramUser($userData);
 
+            /** @var  status */
+            if($user->status == 0){
+                return $this->bot->sendMessage([
+                    'chat_id' => $this->bot->getWebhookUpdate()->getChat()->id,
+                    'text' => 'Ваш аккаунт заблокирован в боте.'
+                ]);
+            }
             /** Если команда запущенная через / */
             if ($this->bot->getWebhookUpdate()->hasCommand()) {
                 User::updateUser($user);
@@ -36,7 +43,6 @@ class Webhook
 
                 return 'command accepted';
             }
-
             /** @var  $callback */
             if ($callback = $this->bot->getWebhookUpdate()->get('callback_query')) {
                 if (Callback::setParams($callback->get('data'))) {
@@ -49,11 +55,15 @@ class Webhook
                 }
             }
 
+
+            /** pay */
+            if ($user->command == 'pay') {
+                return $this->bot->triggerCommand('pay-save', $this->bot->commandsHandler(true));
+            }
             /** видео */
             if ($user->command == 'teacher-videos') {
                 return $this->bot->triggerCommand('teacher-videos-uploads', $this->bot->commandsHandler(true));
             }
-
             /** ответы пользователя */
             if ($user->command == 'student-videos' and User::getUser()->video_id > 0) {
                 return $this->bot->triggerCommand('student-videos-answer', $this->bot->commandsHandler(true));

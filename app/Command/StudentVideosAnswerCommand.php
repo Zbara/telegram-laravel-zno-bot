@@ -63,6 +63,9 @@ class StudentVideosAnswerCommand extends Command
                             ['text' => 'Не понял', 'callback_data' => 'student-videos-answer,error'],
                         ],
                         [
+                            ['text' => 'Добавить в закладки', 'callback_data' => 'faveAdd,' . $videos->id ],
+                        ],
+                        [
                             ['text' => 'Назад к урокам', 'callback_data' => 'student'],
                         ],
                     ],

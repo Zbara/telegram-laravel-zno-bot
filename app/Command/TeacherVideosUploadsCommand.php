@@ -3,10 +3,12 @@
 namespace App\Command;
 
 
+use App\Command\Messages\TextList;
 use App\Models\TelegramVideos;
 use App\Telegram\RemoveMessages;
 use App\Telegram\User;
 use Carbon\Carbon;
+use FFMpeg\FFMpeg;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
@@ -26,12 +28,35 @@ class TeacherVideosUploadsCommand extends Command
                     'text' => 'Загружать только видео.',
                 ]);
             }
+
+            $getFileName = RemoveMessages::getApi()->getFile([
+                'file_id' => $this->getUpdate()->getMessage()->video->get('file_id')
+            ]);
+
+            if (copy('https://api.telegram.org/file/bot' . env('TELEGRAM_BOT_TOKEN') . '/' . $getFileName->get('file_path'), storage_path('video/file.mp4'))) {
+                $ffmpeg = FFMpeg::create([
+                    'ffmpeg.binaries' => '/usr/bin/ffmpeg',
+                    'ffprobe.binaries' => '/usr/bin/ffprobe'
+                ]);
+                $video = $ffmpeg->open(storage_path('video/file.mp4'));
+
+                if ((int)$video->getFormat()->get('duration') > 30) {
+                    return $this->replyWithMessage([
+                        'text' => 'Очень большое видео разрешено до 30 секунд.',
+                    ]);
+                } elseif ((int)$video->getFormat()->get('duration') < 5) {
+                    return $this->replyWithMessage([
+                        'text' => 'Очень короткое видео.',
+                    ]);
+                }
+            }
+
             $video = TelegramVideos::create([
                 'file_name' => $this->getUpdate()->getMessage()->video->get('file_id'),
                 'file_size' => (int)$this->getUpdate()->getMessage()->video->get('file_size'),
+                'file_path' => $getFileName->get('file_path'),
                 'user_id' => User::getUser()->id,
                 'subject' => User::getUser()->subject,
-                'tags' => $this->getUpdate()->getMessage()->caption,
             ]);
 
             User::getUser()->upload_video = $video->id;
@@ -65,7 +90,7 @@ class TeacherVideosUploadsCommand extends Command
                             $video->save();
 
                             return $this->replyWithMessage([
-                                'text' => 'Введите теги в таком формате, #test, #zbara.',
+                                'text' => 'Введите теги.',
                             ]);
                         }
                         return $this->replyWithMessage([
@@ -78,8 +103,9 @@ class TeacherVideosUploadsCommand extends Command
 
                     if (is_null($video->tags)) {
                         if (mb_strlen($text) >= 5 and mb_strlen($text) <= 200) {
+
                             /** save text */
-                            $video->tags = $text;
+                            $video->tags = TextList::getTags($text);
                             $video->save();
 
                             /** null upload_video */

@@ -12,6 +12,56 @@
 
 namespace App\Models{
 /**
+ * App\Models\Fave
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $video_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Fave whereVideoId($value)
+ * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramVideos[] $videos
+ * @property-read int|null $videos_count
+ */
+	class Fave extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\TelegramRole
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int|null $role
+ * @property int|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsers[] $user
+ * @property-read int|null $user_count
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TelegramRole whereUserId($value)
+ * @mixin \Eloquent
+ */
+	class TelegramRole extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\TelegramUsers
  *
  * @property int $id
@@ -102,6 +152,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TelegramVideos whereTheme($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsersDoneVideos[] $doneList
  * @property-read int|null $done_list_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsersDoneVideos[] $subscribers
+ * @property-read int|null $subscribers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TelegramUsers[] $user
+ * @property-read int|null $user_count
  */
 	class TelegramVideos extends \Eloquent {}
 }
