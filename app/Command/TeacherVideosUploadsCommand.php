@@ -33,7 +33,7 @@ class TeacherVideosUploadsCommand extends Command
                 'file_id' => $this->getUpdate()->getMessage()->video->get('file_id')
             ]);
 
-            if (copy('https://api.telegram.org/file/bot' . env('TELEGRAM_BOT_TOKEN') . '/' . $getFileName->get('file_path'), storage_path('video/file.mp4'))) {
+            if (copy('https://api.telegram.org/file/bot' . \Config::get('values.bot_token') . '/' . $getFileName->get('file_path'), storage_path('video/file.mp4'))) {
                 $ffmpeg = FFMpeg::create([
                     'ffmpeg.binaries' => '/usr/bin/ffmpeg',
                     'ffprobe.binaries' => '/usr/bin/ffprobe'

@@ -31,7 +31,7 @@ class VideosController extends Controller
         $video = TelegramVideos::find($id)->get();
 
         if ($video) {
-            $response = Response::make(file_get_contents('https://api.telegram.org/file/bot' . env('TELEGRAM_BOT_TOKEN') . '/' . $video->value('file_path')));
+            $response = Response::make(file_get_contents('https://api.telegram.org/file/bot' . \Config::get('values.bot_token') . '/' . $video->value('file_path')));
             $response->header('Content-Type', "video/mp4");
 
 
