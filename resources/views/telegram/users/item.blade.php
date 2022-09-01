@@ -29,7 +29,7 @@
         </td>
 
         <td>
-            @if($item['status'] == 0)
+            @if($item['status'] == 3)
                 <span class="badge bg-success me-1"></span> Заблокирован
             @else
                 <span class="badge bg-success me-1"></span> Активный
