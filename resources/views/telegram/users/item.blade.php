@@ -49,7 +49,7 @@
                                                                                          y2="12"/></svg>
                                             </span>
             <div class="dropdown-menu dropdown-menu-end  status_user">
-                <div class="dropdown-item cursor-pointer" data-status-id="0">
+                <div class="dropdown-item cursor-pointer" data-status-id="3">
                     Заблокировать
                 </div>
                 <div class="dropdown-item cursor-pointer" data-status-id="1">

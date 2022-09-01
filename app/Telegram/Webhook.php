@@ -29,7 +29,7 @@ class Webhook
             $user = User::telegramUser($userData);
 
             /** @var  status */
-            if($user->status == 0){
+            if($user->status == 3){
                 return $this->bot->sendMessage([
                     'chat_id' => $this->bot->getWebhookUpdate()->getChat()->id,
                     'text' => 'Ваш аккаунт заблокирован в боте.'

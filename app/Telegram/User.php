@@ -30,7 +30,7 @@ class User
     {
         if ($userData->get('id') !== null) {
 
-            $user = TelegramUsers::where('platform_id', $userData->id)->first();
+            $user = TelegramUsers::where('platform_id', $userData->id)->limit(1)->get();
 
             if (null === $user) {
                 $user = TelegramUsers::create([

@@ -56,7 +56,7 @@ class BotUsersController extends Controller
         $users = TelegramUsers::all();
 
         if ($request->get('status') == 1) {
-            $users = TelegramUsers::where('status', 0);
+            $users = TelegramUsers::where('status', 3);
         }
         if ($request->get('teacher') == 1) {
             $users = TelegramUsers::where('role', 2);
@@ -83,7 +83,7 @@ class BotUsersController extends Controller
             'status' => 'int',
         ]);
 
-        if (in_array($request->get('status'), [0, 1])) {
+        if (in_array($request->get('status'), [3, 1])) {
 
             if ($users = TelegramUsers::find($request->get('id'))->get()) {
                 TelegramUsers::where('id', $request->get('id'))->update(['status' => $request->get('status')]);
