@@ -28,10 +28,12 @@ class TeacherMyCommand extends Command
         RemoveMessages::remove();
 
         $videos = TelegramVideos::where('user_id', User::getUser()->id)->get();
+        $count = TelegramVideos::where('user_id', User::getUser()->id)->count('views');
+        $countViews = TelegramVideos::where('user_id', User::getUser()->id)->sum('views');
 
         if (count($videos) > 0) {
             $this->replyWithMessage([
-                'text' => 'Список моих уроков',
+                'text' => sprintf("Список моих уроков. \n\n Количество моих уроков: %s \n\n Общее количество просмотров моих уроков: %s" ,$count, $countViews),
                 'chat_id' => $this->getUpdate()->getChat()->id,
                 'reply_markup' => Keyboard::make([
                     'inline_keyboard' => [
@@ -44,8 +46,10 @@ class TeacherMyCommand extends Command
             ]);
             foreach ($videos as $item) {
                 if ($item->tags !== null) {
+
                     $this->replyWithVideo([
-                        'caption' => sprintf('Видео по предмету - %s. %sТема - %s. %sТеги - %s.', TextList::$items[$item->subject], "\n\n", $item->theme, "\n\n", $item->tags),
+                        'caption' => sprintf("Видео по предмету - %s. \n\nТема - %s. \n\nТеги - %s. \n\nКоличество просмотров - %s просмотр.",
+                            TextList::$items[$item->subject], $item->theme, $item->tags, (int) $item->views),
                         'video' => $item->file_name,
                         'chat_id' => $this->getUpdate()->getChat()->id,
                         'reply_markup' => Keyboard::make([
