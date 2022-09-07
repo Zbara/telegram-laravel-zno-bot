@@ -28,7 +28,7 @@ class TeacherMyCommand extends Command
         RemoveMessages::remove();
 
         $videos = TelegramVideos::where('user_id', User::getUser()->id)->get();
-        $count = TelegramVideos::where('user_id', User::getUser()->id)->count('views');
+        $count = TelegramVideos::where('user_id', User::getUser()->id)->count('*');
         $countViews = TelegramVideos::where('user_id', User::getUser()->id)->sum('views');
 
         if (count($videos) > 0) {
